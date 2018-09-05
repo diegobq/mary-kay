@@ -20,8 +20,9 @@
     "serve": "^10.0.0"
   },
   "scripts": {
-    "dev": "react-scripts start",
-    "start": "serve -s build",
+    "start": "if test \"$NODE_ENV\" = \"production\" ; then npm run start-prod; else npm run start-dev; fi",
+    "start-dev": "echo $NODE_ENV && react-scripts start",
+    "start-prod": "echo $NODE_ENV && serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
