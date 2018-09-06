@@ -15,8 +15,6 @@ import { Form, Field } from 'react-final-form';
 
 import moment from 'moment';
 
-import 'react-datepicker/dist/react-datepicker.css';
-
 const styles = theme => ({
   modal: {
     display: 'flex',
