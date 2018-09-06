@@ -4,6 +4,7 @@ import { withRouter, Route, Redirect, Link } from 'react-router-dom';
 import {
   withStyles,
   Typography,
+  Avatar,
   Button,
   IconButton,
   Paper,
@@ -12,7 +13,9 @@ import {
   ListItemText,
   ListItemSecondaryAction,
 } from '@material-ui/core';
-import { Delete as DeleteIcon, Add as AddIcon } from '@material-ui/icons';
+
+import { green, pink } from '@material-ui/core/colors/';
+import { Assignment as AssignmentIcon, Delete as DeleteIcon, Add as AddIcon } from '@material-ui/icons';
 import moment from 'moment';
 import { find, orderBy } from 'lodash';
 import { compose } from 'recompose';
@@ -33,6 +36,23 @@ const styles = theme => ({
       right: 2 * theme.spacing.unit,
     },
   },
+  avatar: {
+    margin: 10,
+  },
+  pinkAvatar: {
+    margin: 10,
+    color: '#fff',
+    backgroundColor: pink[500],
+  },
+  greenAvatar: {
+    margin: 10,
+    color: '#fff',
+    backgroundColor: green[500],
+  },
+  row: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
 });
 
 class PedidosManager extends Component {
@@ -51,23 +71,6 @@ class PedidosManager extends Component {
     this.getPedidos();
   }
 
-  async fetch(method, endpoint, body) {
-    try {
-      const response = await fetch(`hola${endpoint}`, {
-        method,
-        body: body && JSON.stringify(body),
-        headers: {
-          'content-type': 'application/json',
-          accept: 'application/json',
-          authorization: `Bearer ${await this.props.auth.getAccessToken()}`,
-        },
-      });
-      return await response.json();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
   getPedidos = () => {
     this.dataManager.getPedidos().subscribe((data) => {
       this.setState((previousState) => {
@@ -82,7 +85,7 @@ class PedidosManager extends Component {
 
   savePedido = async (pedido) => {
     this.dataManager.savePedido(pedido).then((result) => {
-      console.log('Pedido guardado');
+      this.props.history.goBack();
     }).catch((error) => {
       console.log('Fallo');
     });
@@ -96,9 +99,7 @@ class PedidosManager extends Component {
 
   renderPostEditor = ({ match: { params: { id } } }) => {
     if (this.state.loading) return null;
-    console.log(id);
     const post = find(this.state.pedidos, { id: id });
-    console.log(post);
 
     if (!post && id !== 'new') return <Redirect to="/posts" />;
 
@@ -114,11 +115,14 @@ class PedidosManager extends Component {
         {this.state.pedidos.length > 0 ? (
           <Paper elevation={1} className={classes.posts}>
             <List>
-              {orderBy(this.state.pedidos, ['updatedAt', 'description'], ['description', 'asc']).map(pedido => (
+              {orderBy(this.state.pedidos, ['fechaPedido', 'description'], ['description', 'asc']).map(pedido => (
                 <ListItem key={pedido.id} button component={Link} to={`/posts/${pedido.id}`}>
+                  <Avatar className={classes.greenAvatar}>
+                    <AssignmentIcon />
+                  </Avatar>
                   <ListItemText
-                    primary={pedido.description}
-                    secondary={pedido.updatedAt && `Updated ${moment(pedido.updatedAt).fromNow()}`}
+                    primary={`${pedido.cliente} - ${pedido.description} - $${pedido.total} - $${pedido.pagado}`}
+                    secondary={pedido.fechaPedido && `Pedido ${moment(pedido.fechaPedido).fromNow()} - ${moment(pedido.fechaPedido).format('DD/MM/YYYY')}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton onClick={() => this.deletePedido(pedido)} color="inherit">

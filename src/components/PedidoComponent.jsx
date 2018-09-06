@@ -6,11 +6,16 @@ import {
   CardActions,
   Modal,
   Button,
+  InputAdornment,
   TextField,
 } from '@material-ui/core';
 import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import { Form, Field } from 'react-final-form';
+
+import moment from 'moment';
+
+import 'react-datepicker/dist/react-datepicker.css';
 
 const styles = theme => ({
   modal: {
@@ -31,6 +36,8 @@ const styles = theme => ({
   },
 });
 
+const todayStr = moment().format('YYYY-MM-DD');
+
 const Pedido = ({ classes, post, onSave, history }) => (
   <Form initialValues={post} onSubmit={onSave}>
     {({ handleSubmit }) => (
@@ -43,15 +50,57 @@ const Pedido = ({ classes, post, onSave, history }) => (
           <form onSubmit={handleSubmit}>
             <CardContent className={classes.modalCardContent}>
               <Field name="cliente">
-                {({ input }) => <TextField label="Title" autoFocus {...input} />}
+                {({ input }) => <TextField label="Cliente" autoFocus {...input} />}
               </Field>
               <Field name="description">
                 {({ input }) => (
                   <TextField
                     className={classes.marginTop}
-                    label="Body"
+                    label="Descripción"
                     multiline
                     rows={4}
+                    {...input}
+                  />
+                )}
+              </Field>
+              <Field name="fechaPedido">
+                {({ input }) => (
+                  <TextField
+                    id="date"
+                    label="Fecha (MM-DD-AAAA)"
+                    type="date"
+                    defaultValue={todayStr}
+                    required={true}
+                    className={classes.marginTop}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    {...input}
+                  />
+                )}
+              </Field>
+              <Field name="total">
+                {({ input }) => (
+                  <TextField
+                    id="total"
+                    label="Total"
+                    className={classes.marginTop}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    }}
+                    {...input}
+                  />
+                )}
+              </Field>
+              <Field name="pagado">
+                {({ input }) => (
+                  <TextField
+                    id="pagado"
+                    label="Pagado"
+                    className={classes.marginTop}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    }}
                     {...input}
                   />
                 )}
