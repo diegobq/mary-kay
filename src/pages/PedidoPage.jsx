@@ -22,9 +22,10 @@ import { compose } from 'recompose';
 
 import { DataManager } from '../data-store/DataManager';
 import Pedido from '../components/PedidoComponent';
+import { ROUTES } from '../constants';
 
 const styles = theme => ({
-  posts: {
+  items: {
     marginTop: 2 * theme.spacing.unit,
   },
   fab: {
@@ -99,11 +100,11 @@ class PedidosManager extends Component {
 
   renderPostEditor = ({ match: { params: { id } } }) => {
     if (this.state.loading) return null;
-    const post = find(this.state.pedidos, { id: id });
+    const pedido = find(this.state.pedidos, { id: id });
 
-    if (!post && id !== 'new') return <Redirect to="/posts" />;
+    if (!pedido && id !== 'new') return <Redirect to={ ROUTES.pedido.path } />;
 
-    return <Pedido post={post} onSave={this.savePedido} />;
+    return <Pedido pedido={pedido} onSave={this.savePedido} />;
   };
 
   render() {
@@ -111,12 +112,12 @@ class PedidosManager extends Component {
 
     return (
       <Fragment>
-        <Typography variant="display1">Pedidos</Typography>
+        <Typography variant="display1">{ROUTES.pedido.label}</Typography>
         {this.state.pedidos.length > 0 ? (
-          <Paper elevation={1} className={classes.posts}>
+          <Paper elevation={1} className={classes.items}>
             <List>
               {orderBy(this.state.pedidos, ['fechaPedido', 'description'], ['description', 'asc']).map(pedido => (
-                <ListItem key={pedido.id} button component={Link} to={`/posts/${pedido.id}`}>
+                <ListItem key={pedido.id} button component={Link} to={`${ROUTES.pedido.path}/${pedido.id}`}>
                   <Avatar className={classes.greenAvatar}>
                     <AssignmentIcon />
                   </Avatar>
@@ -134,7 +135,7 @@ class PedidosManager extends Component {
             </List>
           </Paper>
         ) : (
-          !this.state.loading && <Typography variant="subheading">No posts to display</Typography>
+          !this.state.loading && <Typography variant="subheading">{`No hay ${ROUTES.pedido.label} cargados.`}</Typography>
         )}
         <Button
           variant="fab"
@@ -142,11 +143,11 @@ class PedidosManager extends Component {
           aria-label="add"
           className={classes.fab}
           component={Link}
-          to="/posts/new"
+          to={`${ROUTES.pedido.path}/new`}
         >
           <AddIcon />
         </Button>
-        <Route exact path="/posts/:id" render={this.renderPostEditor} />
+        <Route exact path={`${ROUTES.pedido.path}/:id`} render={this.renderPostEditor} />
       </Fragment>
     );
   }

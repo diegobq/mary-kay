@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 
 import LoginButton from './LoginButton';
+import { ROUTES } from '../constants';
 
 const styles = {
   flex: {
@@ -23,7 +24,8 @@ const AppHeader = ({ classes }) => (
         Mary Kay
       </Typography>
       <Button color="inherit" component={Link} to="/">Inicio</Button>
-      <Button color="inherit" component={Link} to="/posts">Pedidos</Button>
+      <Button color="inherit" component={Link} to={ ROUTES.pedido.path }>{ROUTES.pedido.label}</Button>
+      <Button color="inherit" component={Link} to={ ROUTES.cliente.path }>{ROUTES.cliente.label}</Button>
       <div className={classes.flex} />
       <LoginButton />
     </Toolbar>

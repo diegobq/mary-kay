@@ -36,8 +36,8 @@ const styles = theme => ({
 
 const todayStr = moment().format('YYYY-MM-DD');
 
-const Pedido = ({ classes, post, onSave, history }) => (
-  <Form initialValues={post} onSubmit={onSave}>
+const Pedido = ({ classes, pedido, onSave, history }) => (
+  <Form initialValues={pedido} onSubmit={onSave}>
     {({ handleSubmit }) => (
       <Modal
         className={classes.modal}
