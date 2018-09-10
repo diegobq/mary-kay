@@ -50,10 +50,10 @@ const Cliente = ({ classes, item, onSave, history }) => (
                 {({ input }) => <TextField label="Nombre y Apellido" autoFocus {...input} />}
               </Field>
               <Field name="tonoPiel">
-                {({ input }) => <TextField label="Tono Piel" autoFocus {...input} />}
+                {({ input }) => <TextField label="Tono Piel" className={classes.marginTop} autoFocus {...input} />}
               </Field>
               <Field name="tipoPiel">
-                {({ input }) => <TextField label="Tipo Piel" autoFocus {...input} />}
+                {({ input }) => <TextField label="Tipo Piel"className={classes.marginTop} autoFocus {...input} />}
               </Field>
               <Field name="observaciones">
                 {({ input }) => (
@@ -67,10 +67,10 @@ const Cliente = ({ classes, item, onSave, history }) => (
                 )}
               </Field>
               <Field name="telefono">
-                {({ input }) => <TextField label="Teléfono" autoFocus {...input} />}
+                {({ input }) => <TextField label="Teléfono" className={classes.marginTop} autoFocus {...input} />}
               </Field>
               <Field name="direccion">
-                {({ input }) => <TextField label="Dirección" autoFocus {...input} />}
+                {({ input }) => <TextField label="Dirección" className={classes.marginTop} autoFocus {...input} />}
               </Field>
               <Field name="fechaInicio">
                 {({ input }) => (
