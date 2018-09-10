@@ -6,7 +6,8 @@ export class FirebaseManager {
     this.docRef = firebase.firestore();
 
     this.docs = {
-      pedidos: 'pedidos'
+      pedidos: 'pedidos',
+      clientes: 'clientes'
     };
 
     // create a Subject instance
@@ -17,44 +18,24 @@ export class FirebaseManager {
     return this.get(this.docs.pedidos);
   };
 
-  savePedido = (pedido) => {
-    let promise = new Promise((resolve, reject) => {
-      let collection = this.docRef.collection(this.docs.pedidos);
-      if(pedido.id) { //update
-        collection.doc(pedido.id).set(pedido).then((result) => {
-          resolve(result);
-        }).catch((error) => {
-          console.log('Falla al ACTUALIZAR el pedido');
-          console.log(error);
-          reject(error);
-        });
-      } else {  //new
-        collection.add(pedido).then((result) => {
-          resolve(result);
-        }).catch((error) => {
-          console.log('Falla al CREAR el pedido');
-          console.log(error);
-          reject(error);
-        });
-      }
-    });
-
-    return promise;
+  getClientes = () => {
+    return this.get(this.docs.clientes);
   };
 
-  deletePedido = (pedidoId) => {
-    let promise = new Promise((resolve, reject) => {
-      let collection = this.docRef.collection(this.docs.pedidos);
-      collection.doc(pedidoId).delete().then((result) => {
-        resolve(result);
-      }).catch((error) => {
-        console.log('Falla al ELIMINAR el pedido');
-        console.log(error);
-        reject(error);
-      });
-    });
+  savePedido = (item) => {
+    return this.save(item, this.docs.pedidos);
+  };
 
-    return promise;
+  saveCliente = (item) => {
+    return this.save(item, this.docs.clientes);
+  };
+
+  deletePedido = (id) => {
+    return this.deleteItem(id, this.docs.pedidos);
+  };
+
+  deleteCliente = (id) => {
+    return this.deleteItem(id, this.docs.clientes);
   };
 
   get = (collectionName) => {
@@ -71,5 +52,45 @@ export class FirebaseManager {
     });
 
     return this.subject$;
+  };
+
+  save = (item, collectionName) => {
+    let promise = new Promise((resolve, reject) => {
+      let collection = this.docRef.collection(collectionName);
+      if(item.id) { //update
+        collection.doc(item.id).set(item).then((result) => {
+          resolve(result);
+        }).catch((error) => {
+          console.log('Falla al ACTUALIZAR el "' + collectionName + "'");
+          console.log(error);
+          reject(error);
+        });
+      } else {  //new
+        collection.add(item).then((result) => {
+          resolve(result);
+        }).catch((error) => {
+          console.log('Falla al CREAR el "' + collectionName + '"');
+          console.log(error);
+          reject(error);
+        });
+      }
+    });
+
+    return promise;
+  };
+
+  deleteItem = (id, collectionName) => {
+    let promise = new Promise((resolve, reject) => {
+      let collection = this.docRef.collection(collectionName);
+      collection.doc(id).delete().then((result) => {
+        resolve(result);
+      }).catch((error) => {
+        console.log('Falla al ELIMINAR el "' + collectionName + '" con id: "' + id + '"');
+        console.log(error);
+        reject(error);
+      });
+    });
+
+    return promise;
   };
 }

@@ -6,7 +6,6 @@ import {
   CardActions,
   Modal,
   Button,
-  InputAdornment,
   TextField,
 } from '@material-ui/core';
 import { compose } from 'recompose';
@@ -36,7 +35,7 @@ const styles = theme => ({
 
 const todayStr = moment().format('YYYY-MM-DD');
 
-const Pedido = ({ classes, item, onSave, history }) => (
+const Cliente = ({ classes, item, onSave, history }) => (
   <Form initialValues={item} onSubmit={onSave}>
     {({ handleSubmit }) => (
       <Modal
@@ -47,57 +46,43 @@ const Pedido = ({ classes, item, onSave, history }) => (
         <Card className={classes.modalCard}>
           <form onSubmit={handleSubmit}>
             <CardContent className={classes.modalCardContent}>
-              <Field name="cliente">
-                {({ input }) => <TextField label="Cliente" autoFocus {...input} />}
+              <Field name="nombre">
+                {({ input }) => <TextField label="Nombre y Apellido" autoFocus {...input} />}
               </Field>
-              <Field name="description">
+              <Field name="tonoPiel">
+                {({ input }) => <TextField label="Tono Piel" autoFocus {...input} />}
+              </Field>
+              <Field name="tipoPiel">
+                {({ input }) => <TextField label="Tipo Piel" autoFocus {...input} />}
+              </Field>
+              <Field name="observaciones">
                 {({ input }) => (
                   <TextField
                     className={classes.marginTop}
-                    label="Descripción"
+                    label="Observaciones"
                     multiline
                     rows={4}
                     {...input}
                   />
                 )}
               </Field>
-              <Field name="fechaPedido">
+              <Field name="telefono">
+                {({ input }) => <TextField label="Teléfono" autoFocus {...input} />}
+              </Field>
+              <Field name="direccion">
+                {({ input }) => <TextField label="Dirección" autoFocus {...input} />}
+              </Field>
+              <Field name="fechaInicio">
                 {({ input }) => (
                   <TextField
                     id="date"
-                    label="Fecha (MM-DD-AAAA)"
+                    label="Fecha Inicio (MM-DD-AAAA)"
                     type="date"
                     defaultValue={todayStr}
                     required={true}
                     className={classes.marginTop}
                     InputLabelProps={{
                       shrink: true,
-                    }}
-                    {...input}
-                  />
-                )}
-              </Field>
-              <Field name="total">
-                {({ input }) => (
-                  <TextField
-                    id="total"
-                    label="Total"
-                    className={classes.marginTop}
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    }}
-                    {...input}
-                  />
-                )}
-              </Field>
-              <Field name="pagado">
-                {({ input }) => (
-                  <TextField
-                    id="pagado"
-                    label="Pagado"
-                    className={classes.marginTop}
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start">$</InputAdornment>,
                     }}
                     {...input}
                   />
@@ -118,4 +103,4 @@ const Pedido = ({ classes, item, onSave, history }) => (
 export default compose(
   withRouter,
   withStyles(styles),
-)(Pedido);
+)(Cliente);

@@ -8,7 +8,7 @@ import {
 
 import AppHeader from './components/AppHeader';
 import Home from './pages/Home';
-import { PedidoPage } from './pages';
+import { ClientePage, PedidoPage } from './pages';
 import { ROUTES } from './constants';
 
 const styles = theme => ({
@@ -28,6 +28,7 @@ const App = ({ classes }) => (
   </main>
     <Route exact path="/" component={Home} />
     <SecureRoute exact path={ ROUTES.pedido.path } component={PedidoPage} />
+    <SecureRoute exact path={ ROUTES.cliente.path } component={ClientePage} />
     <Route path="/implicit/callback" component={ImplicitCallback} />
   </Fragment>
 );

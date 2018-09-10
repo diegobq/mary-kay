@@ -9,11 +9,23 @@ export class DataManager {
     return this.dbManager.getPedidos();
   };
 
-  savePedido = (pedido) => {
-    return this.dbManager.savePedido(pedido);
+  savePedido = (item) => {
+    return this.dbManager.savePedido(item);
   };
 
-  deletePedido = (pedidoId) => {
-    return this.dbManager.deletePedido(pedidoId);
+  deletePedido = (itemId) => {
+    return this.dbManager.deletePedido(itemId);
+  };
+
+  getClientes = () => {
+    return this.dbManager.getClientes();
+  };
+
+  saveCliente = (item) => {
+    return this.dbManager.saveCliente(item);
+  };
+
+  deleteCliente = (itemId) => {
+    return this.dbManager.deleteCliente(itemId);
   };
 }

@@ -15,13 +15,13 @@ import {
 } from '@material-ui/core';
 
 import { green, pink } from '@material-ui/core/colors/';
-import { Assignment as AssignmentIcon, Delete as DeleteIcon, Add as AddIcon } from '@material-ui/icons';
+import { AccountCircle as AccountIcon, Delete as DeleteIcon, Add as AddIcon } from '@material-ui/icons';
 import moment from 'moment';
 import { find, orderBy } from 'lodash';
 import { compose } from 'recompose';
 
 import { DataManager } from '../data-store/DataManager';
-import Pedido from '../components/PedidoComponent';
+import Cliente from '../components/ClienteComponent';
 import { ROUTES } from '../constants';
 
 const styles = theme => ({
@@ -56,12 +56,12 @@ const styles = theme => ({
   },
 });
 
-class PedidosManager extends Component {
+class ClientesManager extends Component {
   constructor(props) {
     super(props);
 
     this.dataManager = new DataManager();
-    this.route = ROUTES.pedido;
+    this.route = ROUTES.cliente;
 
     this.state = {
       loading: true,
@@ -74,7 +74,7 @@ class PedidosManager extends Component {
   }
 
   getItems = () => {
-    this.dataManager.getPedidos().subscribe((data) => {
+    this.dataManager.getClientes().subscribe((data) => {
       this.setState((previousState) => {
         return {
           ...previousState,
@@ -86,7 +86,7 @@ class PedidosManager extends Component {
   };
 
   saveItem = async (item) => {
-    this.dataManager.savePedido(item).then((result) => {
+    this.dataManager.saveCliente(item).then((result) => {
       this.props.history.goBack();
     }).catch((error) => {
       console.log('Fallo');
@@ -95,7 +95,7 @@ class PedidosManager extends Component {
 
   async deleteItem(item) {
     if (window.confirm(`Are you sure you want to delete "${item.description}"`)) {
-      this.dataManager.deletePedido(item.id);
+      this.dataManager.deleteCliente(item.id);
     }
   }
 
@@ -105,7 +105,7 @@ class PedidosManager extends Component {
 
     if (!item && id !== 'new') return <Redirect to={ this.route.path } />;
 
-    return <Pedido item={item} onSave={this.saveItem} />;
+    return <Cliente item={item} onSave={this.saveItem} />;
   };
 
   render() {
@@ -117,14 +117,14 @@ class PedidosManager extends Component {
         {this.state.items.length > 0 ? (
           <Paper elevation={1} className={classes.items}>
             <List>
-              {orderBy(this.state.items, ['fechaPedido', 'description'], ['description', 'asc']).map(item => (
+              {orderBy(this.state.items, ['fechaInicio', 'nombre'], ['nombre', 'asc']).map(item => (
                 <ListItem key={item.id} button component={Link} to={`${this.route.path}/${item.id}`}>
                   <Avatar className={classes.greenAvatar}>
-                    <AssignmentIcon />
+                    <AccountIcon />
                   </Avatar>
                   <ListItemText
-                    primary={`${item.cliente} - ${item.description} - $${item.total} - $${item.pagado}`}
-                    secondary={item.fechaPedido && `Pedido ${moment(item.fechaPedido).fromNow()} - ${moment(item.fechaPedido).format('DD/MM/YYYY')}`}
+                    primary={`${item.nombre} - ${item.telefono}`}
+                    secondary={item.fechaInicio && `Inicio ${moment(item.fechaInicio).fromNow()} - ${moment(item.fechaInicio).format('DD/MM/YYYY')}`}
                   />
                   <ListItemSecondaryAction>
                     <IconButton onClick={() => this.deleteItem(item)} color="inherit">
@@ -158,4 +158,4 @@ export default compose(
   withAuth,
   withRouter,
   withStyles(styles),
-)(PedidosManager);
+)(ClientesManager);
