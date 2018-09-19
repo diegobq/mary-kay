@@ -15,6 +15,8 @@ import { Form, Field } from 'react-final-form';
 
 import moment from 'moment';
 
+import { LABELS } from '../constants';
+
 const styles = theme => ({
   modal: {
     display: 'flex',
@@ -105,8 +107,8 @@ const Pedido = ({ classes, item, onSave, history }) => (
               </Field>
             </CardContent>
             <CardActions>
-              <Button size="small" color="primary" type="submit">Save</Button>
-              <Button size="small" onClick={() => history.goBack()}>Cancel</Button>
+              <Button size="small" color="primary" type="submit">{LABELS.save}</Button>
+              <Button size="small" onClick={() => history.goBack()}>{LABELS.cancel}</Button>
             </CardActions>
           </form>
         </Card>
