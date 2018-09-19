@@ -11,36 +11,49 @@ export class FirebaseManager {
     this.docRef.settings(settings);
 
     this.docs = {
+      clientes: 'clientes',
+      ordenes: 'ordenes',
       pedidos: 'pedidos',
-      clientes: 'clientes'
     };
 
     // create a Subject instance
     this.subject$ = new Subject();
   }
 
-  getPedidos = () => {
-    return this.get(this.docs.pedidos);
-  };
-
   getClientes = () => {
     return this.get(this.docs.clientes);
-  };
-
-  savePedido = (item) => {
-    return this.save(item, this.docs.pedidos);
   };
 
   saveCliente = (item) => {
     return this.save(item, this.docs.clientes);
   };
 
-  deletePedido = (id) => {
-    return this.deleteItem(id, this.docs.pedidos);
-  };
-
   deleteCliente = (id) => {
     return this.deleteItem(id, this.docs.clientes);
+  };
+
+  getOrdenes = () => {
+    return this.get(this.docs.ordenes);
+  };
+
+  saveOrden = (item) => {
+    return this.save(item, this.docs.ordenes);
+  };
+
+  deleteOrden = (id) => {
+    return this.deleteItem(id, this.docs.ordenes);
+  };
+
+  getPedidos = () => {
+    return this.get(this.docs.pedidos);
+  };
+
+  savePedido = (item) => {
+    return this.save(item, this.docs.pedidos);
+  };
+
+  deletePedido = (id) => {
+    return this.deleteItem(id, this.docs.pedidos);
   };
 
   get = (collectionName) => {

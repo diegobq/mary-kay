@@ -5,6 +5,18 @@ export class DataManager {
     this.dbManager = new DBManager();
   }
 
+  getClientes = () => {
+    return this.dbManager.getClientes();
+  };
+
+  saveCliente = (item) => {
+    return this.dbManager.saveCliente(item);
+  };
+
+  deleteCliente = (itemId) => {
+    return this.dbManager.deleteCliente(itemId);
+  };
+
   getPedidos = () => {
     return this.dbManager.getPedidos();
   };
@@ -17,15 +29,15 @@ export class DataManager {
     return this.dbManager.deletePedido(itemId);
   };
 
-  getClientes = () => {
-    return this.dbManager.getClientes();
+  getOrdenes = () => {
+    return this.dbManager.getOrdenes();
   };
 
-  saveCliente = (item) => {
-    return this.dbManager.saveCliente(item);
+  saveOrden = (item) => {
+    return this.dbManager.saveOrden(item);
   };
 
-  deleteCliente = (itemId) => {
-    return this.dbManager.deleteCliente(itemId);
+  deleteOrden = (itemId) => {
+    return this.dbManager.deleteOrden(itemId);
   };
 }
