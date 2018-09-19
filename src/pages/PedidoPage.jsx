@@ -99,7 +99,7 @@ class PedidosManager extends Component {
     }
   }
 
-  renderPostEditor = ({ match: { params: { id } } }) => {
+  renderEditor = ({ match: { params: { id } } }) => {
     if (this.state.loading) return null;
     const item = find(this.state.items, { id: id });
 
@@ -148,7 +148,7 @@ class PedidosManager extends Component {
         >
           <AddIcon />
         </Button>
-        <Route exact path={`${this.route.path}/:id`} render={this.renderPostEditor} />
+        <Route exact path={`${this.route.path}/:id`} render={this.renderEditor} />
       </Fragment>
     );
   }
