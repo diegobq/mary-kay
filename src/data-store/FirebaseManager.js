@@ -1,9 +1,14 @@
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 import { Subject } from 'rxjs';
 
 export class FirebaseManager {
   constructor() {
     this.docRef = firebase.firestore();
+    const settings = {
+      timestampsInSnapshots: true
+    };
+    this.docRef.settings(settings);
 
     this.docs = {
       pedidos: 'pedidos',
