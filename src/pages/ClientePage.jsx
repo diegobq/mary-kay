@@ -101,9 +101,15 @@ class ClientesManager extends Component {
 
   renderEditor = ({ match: { params: { id } } }) => {
     if (this.state.loading) return null;
-    const item = find(this.state.items, { id: id });
+    let item = find(this.state.items, { id: id });
 
     if (!item && id !== 'new') return <Redirect to={ this.route.path } />;
+
+    if (!item && id === 'new') {
+      item = {
+        fechaInicio: moment().format('YYYY-MM-DD')
+      }
+    }
 
     return <Cliente item={item} onSave={this.saveItem} />;
   };

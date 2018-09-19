@@ -13,8 +13,6 @@ import { compose } from 'recompose';
 import { withRouter } from 'react-router-dom';
 import { Form, Field } from 'react-final-form';
 
-import moment from 'moment';
-
 import { LABELS } from '../constants';
 
 const styles = theme => ({
@@ -35,8 +33,6 @@ const styles = theme => ({
     marginTop: 2 * theme.spacing.unit,
   },
 });
-
-const todayStr = moment().format('YYYY-MM-DD');
 
 const Pedido = ({ classes, item, onSave, history }) => (
   <Form initialValues={item} onSubmit={onSave}>
@@ -69,7 +65,6 @@ const Pedido = ({ classes, item, onSave, history }) => (
                     id="date"
                     label="Fecha (MM-DD-AAAA)"
                     type="date"
-                    defaultValue={todayStr}
                     required={true}
                     className={classes.marginTop}
                     InputLabelProps={{
