@@ -1,4 +1,8 @@
 export const ROUTES = {
+  cargarOrden: {
+    label: 'Cargar Orden',
+    path: '/cargarOrden'
+  },
   cliente: {
     label: 'Clientes',
     path: '/clientes'

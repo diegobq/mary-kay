@@ -13,6 +13,7 @@ import {
   ListItemText,
   ListItemSecondaryAction,
 } from '@material-ui/core';
+import { SecureRoute } from '@okta/okta-react';
 
 import { green, pink } from '@material-ui/core/colors/';
 import { Folder as FolderIcon, Delete as DeleteIcon, Edit as EditIcon, Add as AddIcon } from '@material-ui/icons';
@@ -22,6 +23,7 @@ import { compose } from 'recompose';
 
 import { DataManager } from '../data-store/DataManager';
 import Orden from '../components/OrdenComponent';
+import { CargarOrdenPage } from '../pages';
 import { MESES, ROUTES } from '../constants';
 
 const styles = theme => ({
@@ -56,12 +58,13 @@ const styles = theme => ({
   },
 });
 
-class ClientesManager extends Component {
+class OrdenManager extends Component {
   constructor(props) {
     super(props);
 
     this.dataManager = new DataManager();
     this.route = ROUTES.orden;
+    this.detailRoute = ROUTES.cargarOrden;
 
     this.state = {
       loading: true,
@@ -92,6 +95,9 @@ class ClientesManager extends Component {
     if(isUndefined(item.fechaRecibido)) {
       item.fechaRecibido = null;
     }
+    if(isUndefined(item.pedidos)) {
+      item.pedidos = [];
+    }
     this.dataManager.saveOrden(item).then((result) => {
       this.props.history.goBack();
     }).catch((error) => {
@@ -110,7 +116,7 @@ class ClientesManager extends Component {
     this.props.history.push(`${this.route.path}/${item.id}`);
   }
 
-  renderEditor = ({ match: { params: { id, add } } }) => {
+  renderEditor = ({ match: { params: { id } } }) => {
     if (this.state.loading) return null;
     let item = find(this.state.items, { id: id });
 
@@ -136,7 +142,7 @@ class ClientesManager extends Component {
           <Paper elevation={1} className={classes.items}>
             <List>
               {orderBy(this.state.items, ['fechaOrden'], ['desc']).map(item => (
-                <ListItem key={item.id} button component={Link} to={`${this.route.path}/${item.id}/add`}>
+                <ListItem key={item.id} button component={Link} to={`${this.detailRoute.path}/${item.id}`}>
                   {!item.fechaPedido && !item.fechaRecibido &&
                     <Avatar className={classes.avatar}>
                       <FolderIcon />
@@ -153,7 +159,7 @@ class ClientesManager extends Component {
                     </Avatar>
                   }
                   <ListItemText
-                    primary={`${MESES[moment(item.fechaOrden).format('MM')]} - ${moment(item.fechaOrden).format('YYYY')} - %${item.porcentaje} ${item.fechaPedido ? " - " + moment(item.fechaPedido).format('DD/MM/YYYY') : ""}`}
+                    primary={`${MESES[moment(item.fechaOrden).format('MM')]} - ${moment(item.fechaOrden).format('YYYY')} - ${item.porcentaje}% ${item.fechaPedido ? " - " + moment(item.fechaPedido).format('DD/MM/YYYY') : ""}`}
                     secondary={item.fechaRecibido && `Recibido: ${moment(item.fechaRecepcion).format('DD/MM/YYYY')}`}
                   />
                   <ListItemSecondaryAction>
@@ -182,7 +188,7 @@ class ClientesManager extends Component {
           <AddIcon />
         </Button>
         <Route exact path={`${this.route.path}/:id`} render={this.renderEditor} />
-        <Route exact path={`${this.route.path}/:id/:add`} render={this.renderEditor} />
+        <SecureRoute exact path={`${this.route.path}/:id/add`} component={CargarOrdenPage} />
       </Fragment>
     );
   }
@@ -192,4 +198,4 @@ export default compose(
   withAuth,
   withRouter,
   withStyles(styles),
-)(ClientesManager);
+)(OrdenManager);

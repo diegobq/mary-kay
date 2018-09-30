@@ -34,7 +34,7 @@ const styles = theme => ({
   },
 });
 
-const Pedido = ({ classes, item, onSave, history }) => (
+const CargarOrden = ({ classes, item, onSave, history }) => (
   <Form initialValues={item} onSubmit={onSave}>
     {({ handleSubmit }) => (
       <Modal
@@ -66,21 +66,6 @@ const Pedido = ({ classes, item, onSave, history }) => (
                     label="Fecha (MM-DD-AAAA)"
                     type="date"
                     required={true}
-                    className={classes.marginTop}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    {...input}
-                  />
-                )}
-              </Field>
-              <Field name="fechaEntregado">
-                {({ input }) => (
-                  <TextField
-                    id="date"
-                    label="Fecha Entregado (MM-DD-AAAA)"
-                    type="date"
-                    required={false}
                     className={classes.marginTop}
                     InputLabelProps={{
                       shrink: true,
@@ -130,4 +115,4 @@ const Pedido = ({ classes, item, onSave, history }) => (
 export default compose(
   withRouter,
   withStyles(styles),
-)(Pedido);
+)(CargarOrden);

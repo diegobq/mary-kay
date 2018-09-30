@@ -1,7 +1,7 @@
 export const PORCENTAJES = [
   {
-    value: 45,
-    label: '45',
+    value: 55,
+    label: '55',
   },
   {
     value: 60,

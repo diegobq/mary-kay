@@ -29,6 +29,10 @@ export class DataManager {
     return this.dbManager.deletePedido(itemId);
   };
 
+  getOrden = (itemId) => {
+    return this.dbManager.getOrden(itemId);
+  };
+
   getOrdenes = () => {
     return this.dbManager.getOrdenes();
   };

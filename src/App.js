@@ -8,7 +8,7 @@ import {
 
 import AppHeader from './components/AppHeader';
 import Home from './pages/Home';
-import { ClientePage, OrdenPage, PedidoPage } from './pages';
+import { CargarOrdenPage, ClientePage, OrdenPage, PedidoPage } from './pages';
 import { ROUTES } from './constants';
 
 const styles = theme => ({
@@ -30,6 +30,7 @@ const App = ({ classes }) => (
     <SecureRoute exact path={ ROUTES.orden.path } component={OrdenPage} />
     <SecureRoute exact path={ ROUTES.pedido.path } component={PedidoPage} />
     <SecureRoute exact path={ ROUTES.cliente.path } component={ClientePage} />
+    <SecureRoute exact path={ ROUTES.cargarOrden.path } component={CargarOrdenPage} />
     <Route path="/implicit/callback" component={ImplicitCallback} />
   </Fragment>
 );

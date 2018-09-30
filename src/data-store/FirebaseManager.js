@@ -32,6 +32,10 @@ export class FirebaseManager {
     return this.deleteItem(id, this.docs.clientes);
   };
 
+  getOrden = (id) => {
+    return this.getById(this.docs.ordenes, id);
+  };
+
   getOrdenes = () => {
     return this.get(this.docs.ordenes);
   };
@@ -54,6 +58,20 @@ export class FirebaseManager {
 
   deletePedido = (id) => {
     return this.deleteItem(id, this.docs.pedidos);
+  };
+
+  getById = (collectionName, id) => {
+    this.docRef.collection(collectionName)
+      .doc(id)
+      .onSnapshot((querySnapshot) => {
+        const document = {
+          ...querySnapshot.data(),
+          id: querySnapshot.id
+        };
+        this.subject$.next(document);
+    });
+
+    return this.subject$;
   };
 
   get = (collectionName) => {
