@@ -16,7 +16,7 @@ import {
 } from '@material-ui/core';
 
 import { green, pink } from '@material-ui/core/colors/';
-import { Delete as DeleteIcon, Add as AddIcon } from '@material-ui/icons';
+import { Delete as DeleteIcon, Add as AddIcon, KeyboardArrowDown, KeyboardArrowUp } from '@material-ui/icons';
 import moment from 'moment';
 import { compose } from 'recompose';
 
@@ -105,6 +105,22 @@ class CargarOrdenManager extends Component {
     this.saveOrden(orden, false);
   };
 
+  moveItem = (index, isUp) => {
+    if((isUp && index === 0) || (!isUp && index === (this.state.orden.pedidos.length - 1))) { return; }
+
+    const orden = {
+      ...this.state.orden
+    };
+    const pedidos = orden.pedidos;
+
+    const currentPedido = pedidos[index];
+    const nextIndex = isUp ? index - 1 : index + 1;
+    pedidos[index] = pedidos[nextIndex];
+    pedidos[nextIndex] = currentPedido;
+
+    this.saveOrden(orden, false);
+  };
+
   savePedido = (pedido, isEditing, index) => {
     let orden = {
       ...this.state.orden
@@ -178,9 +194,19 @@ class CargarOrdenManager extends Component {
                   <Avatar className={item.fechaEntregado ? classes.pinkAvatar : classes.avatar}>{(index + 1)}</Avatar>
                   <ListItemText
                     primary={`${item.cliente} - ${item.description} - $${item.total} - $${item.pagado}`}
-                    secondary={item.fechaPedido && `Pedido ${moment(item.fechaPedido).fromNow()} - ${moment(item.fechaPedido).format('DD/MM/YYYY')}`}
+                    secondary={`Pedido: ${moment(item.fechaPedido).format('DD/MM/YYYY')} ${item.fechaEntregado ? ` - Entregado: ${moment(item.fechaEntregado).format('DD/MM/YYYY')}` : ''}`}
                   />
                   <ListItemSecondaryAction>
+                    <IconButton onClick={() => this.moveItem(index, false)}
+                                color="inherit"
+                                disabled={index === (pedidos.length - 1)}>
+                      <KeyboardArrowDown />
+                    </IconButton>
+                    <IconButton onClick={() => this.moveItem(index, true)}
+                                color="inherit"
+                                disabled={index === 0}>
+                      <KeyboardArrowUp />
+                    </IconButton>
                     <Switch
                       onChange={() => { this.handleEntregado(index); }}
                       checked={!!item.fechaEntregado}
