@@ -105,6 +105,31 @@ class OrdenManager extends Component {
     });
   };
 
+  obtenerTotales = (orden) => {
+    const porcentaje = parseFloat(orden.porcentaje);
+    let totales = {
+      totalMK: 0,
+      porcentajeMK: porcentaje,
+      porcentaje: (100 - porcentaje),
+      total: 0,
+      ganancia: 0,
+      pagado: 0
+    };
+
+    if(orden.pedidos) {
+      orden.pedidos.map((pedido) => {
+        const pagado = parseFloat(pedido.pagado);
+        const total = parseFloat(pedido.total);
+        totales.total += total;
+        totales.pagado += pagado;
+      });
+      totales.ganancia = totales.total * totales.porcentaje * 0.01;
+      totales.totalMK = totales.total * totales.porcentajeMK * 0.01;
+    }
+
+    return totales
+  };
+
   async deleteItem(item) {
     const orden = MESES[moment(item.fechaOrden).format('MM')];
     if (window.confirm(`Querés eliminar la orden de "${orden}"?`)) {
@@ -141,37 +166,41 @@ class OrdenManager extends Component {
         {this.state.items.length > 0 ? (
           <Paper elevation={1} className={classes.items}>
             <List>
-              {orderBy(this.state.items, ['fechaOrden'], ['desc']).map(item => (
-                <ListItem key={item.id} button component={Link} to={`${this.detailRoute.path}/${item.id}`}>
-                  {!item.fechaPedido && !item.fechaRecibido &&
+              {orderBy(this.state.items, ['fechaOrden'], ['desc']).map(item => {
+                const totales = this.obtenerTotales(item);
+
+                return (
+                  <ListItem key={item.id} button component={Link} to={`${this.detailRoute.path}/${item.id}`}>
+                    {!item.fechaPedido && !item.fechaRecibido &&
                     <Avatar className={classes.avatar}>
                       <FolderIcon />
                     </Avatar>
-                  }
-                  {item.fechaPedido && !item.fechaRecibido &&
+                    }
+                    {item.fechaPedido && !item.fechaRecibido &&
                     <Avatar className={classes.greenAvatar}>
                       <FolderIcon />
                     </Avatar>
-                  }
-                  {item.fechaPedido && item.fechaRecibido &&
+                    }
+                    {item.fechaPedido && item.fechaRecibido &&
                     <Avatar className={classes.pinkAvatar}>
                       <FolderIcon />
                     </Avatar>
-                  }
-                  <ListItemText
-                    primary={`${MESES[moment(item.fechaOrden).format('MM')]} - ${moment(item.fechaOrden).format('YYYY')} - ${item.porcentaje}% ${item.fechaPedido ? " - " + moment(item.fechaPedido).format('DD/MM/YYYY') : ""}`}
-                    secondary={item.fechaRecibido && `Recibido: ${moment(item.fechaRecepcion).format('DD/MM/YYYY')}`}
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton onClick={() => this.editItem(item)} color="inherit">
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton onClick={() => this.deleteItem(item)} color="inherit">
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              ))}
+                    }
+                    <ListItemText
+                      primary={`${MESES[moment(item.fechaOrden).format('MM')]} - ${moment(item.fechaOrden).format('YYYY')} - ${item.porcentaje}% ${item.fechaPedido ? " - " + moment(item.fechaPedido).format('DD/MM/YYYY') : ""}`}
+                      secondary={`Total $${totales.total} - Ganancia(${totales.porcentaje}%) $${totales.ganancia} - Mary Kay(${totales.porcentajeMK}%) $${totales.totalMK} - Pagado $${totales.ganancia}`}
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton onClick={() => this.editItem(item)} color="inherit">
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton onClick={() => this.deleteItem(item)} color="inherit">
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                );
+              })}
             </List>
           </Paper>
         ) : (
