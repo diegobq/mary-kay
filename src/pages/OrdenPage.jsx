@@ -113,18 +113,21 @@ class OrdenManager extends Component {
       porcentaje: (100 - porcentaje),
       total: 0,
       ganancia: 0,
+      descuento: 0,
       pagado: 0
     };
 
     if(orden.pedidos) {
-      orden.pedidos.map((pedido) => {
+      orden.pedidos.forEach((pedido) => {
+        const descuento = parseFloat(pedido.descuento);
         const pagado = parseFloat(pedido.pagado);
         const total = parseFloat(pedido.total);
-        totales.total += total;
+        totales.descuento += descuento;
         totales.pagado += pagado;
+        totales.total += total;
       });
-      totales.ganancia = totales.total * totales.porcentaje * 0.01;
       totales.totalMK = totales.total * totales.porcentajeMK * 0.01;
+      totales.ganancia = totales.total - totales.totalMK - totales.descuento;
     }
 
     return totales
@@ -188,7 +191,7 @@ class OrdenManager extends Component {
                     }
                     <ListItemText
                       primary={`${MESES[moment(item.fechaOrden).format('MM')]} - ${moment(item.fechaOrden).format('YYYY')} - ${item.porcentaje}% ${item.fechaPedido ? " - " + moment(item.fechaPedido).format('DD/MM/YYYY') : ""}`}
-                      secondary={`Total $${totales.total} - Ganancia(${totales.porcentaje}%) $${totales.ganancia} - Mary Kay(${totales.porcentajeMK}%) $${totales.totalMK} - Pagado $${totales.ganancia}`}
+                      secondary={`Total $${totales.total} - Ganancia(${totales.porcentaje}%) $${totales.ganancia} - Descuento $${totales.descuento} - Mary Kay(${totales.porcentajeMK}%) $${totales.totalMK} - Pagado $${totales.ganancia}`}
                     />
                     <ListItemSecondaryAction>
                       <IconButton onClick={() => this.editItem(item)} color="inherit">

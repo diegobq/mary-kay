@@ -102,6 +102,19 @@ const Pedido = ({ classes, item, onSave, history }) => (
                   />
                 )}
               </Field>
+              <Field name="descuento">
+                {({ input }) => (
+                  <TextField
+                    id="descuento"
+                    label="Descuento"
+                    className={classes.marginTop}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    }}
+                    {...input}
+                  />
+                )}
+              </Field>
               <Field name="pagado">
                 {({ input }) => (
                   <TextField

@@ -106,7 +106,9 @@ class PedidosManager extends Component {
     if (!item && id !== 'new') return <Redirect to={ this.route.path } />;
     if (!item && id === 'new') {
       item = {
-        fechaPedido: moment().format('YYYY-MM-DD')
+        fechaPedido: moment().format('YYYY-MM-DD'),
+        pagado: 0,
+        descuento: 0
       };
     }
 

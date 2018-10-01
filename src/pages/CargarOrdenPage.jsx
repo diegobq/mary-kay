@@ -168,7 +168,9 @@ class CargarOrdenManager extends Component {
     if (this.state.loading) return null;
     this.index = index;
     let item = {
-      fechaPedido: moment().format('YYYY-MM-DD')
+      fechaPedido: moment().format('YYYY-MM-DD'),
+      pagado: 0,
+      descuento: 0
     };
 
     if (index !== 'new') {
@@ -193,7 +195,7 @@ class CargarOrdenManager extends Component {
                 <ListItem key={index} button component={Link} to={`${this.route.path}/${orden.id}/add/${index}`}>
                   <Avatar className={item.fechaEntregado ? classes.pinkAvatar : classes.avatar}>{(index + 1)}</Avatar>
                   <ListItemText
-                    primary={`${item.cliente} - ${item.description} - $${item.total} - $${item.pagado}`}
+                    primary={`${item.cliente} - ${item.description} - Total: $${item.total} - Descuento: $${item.descuento} - Pagado: $${item.pagado}`}
                     secondary={`Pedido: ${moment(item.fechaPedido).format('DD/MM/YYYY')} ${item.fechaEntregado ? ` - Entregado: ${moment(item.fechaEntregado).format('DD/MM/YYYY')}` : ''}`}
                   />
                   <ListItemSecondaryAction>
