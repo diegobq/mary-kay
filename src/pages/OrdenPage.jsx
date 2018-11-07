@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import { SecureRoute } from '@okta/okta-react';
 
-import { green, pink } from '@material-ui/core/colors/';
+import { green, pink, blue } from '@material-ui/core/colors/';
 import { Folder as FolderIcon, Delete as DeleteIcon, Edit as EditIcon, Add as AddIcon } from '@material-ui/icons';
 import moment from 'moment';
 import { isUndefined, find, orderBy } from 'lodash';
@@ -51,6 +51,11 @@ const styles = theme => ({
     margin: 10,
     color: '#fff',
     backgroundColor: green[500],
+  },
+  blueAvatar: {
+    margin: 10,
+    color: '#fff',
+    backgroundColor: blue[500],
   },
   row: {
     display: 'flex',
@@ -175,12 +180,12 @@ class OrdenManager extends Component {
                 return (
                   <ListItem key={item.id} button component={Link} to={`${this.detailRoute.path}/${item.id}`}>
                     {!item.fechaPedido && !item.fechaRecibido &&
-                    <Avatar className={classes.avatar}>
+                    <Avatar className={classes.greenAvatar}>
                       <FolderIcon />
                     </Avatar>
                     }
                     {item.fechaPedido && !item.fechaRecibido &&
-                    <Avatar className={classes.greenAvatar}>
+                    <Avatar className={classes.blueAvatar}>
                       <FolderIcon />
                     </Avatar>
                     }
