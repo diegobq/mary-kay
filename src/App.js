@@ -27,12 +27,10 @@ const App = ({ classes }) => (
   <main className={classes.main}>
   </main>
     <Route exact path="/" component={Home} />
-    <SecureRoute exact path={ ROUTES.orden.path } component={OrdenPage} />
-    <SecureRoute exact path={ ROUTES.pedido.path } component={PedidoPage} />
-    <SecureRoute exact path={ `${ROUTES.cliente.path}/:id` } component={ClientePage} />
-    <SecureRoute exact path={ ROUTES.cliente.path } component={ClientePage} />
-    <SecureRoute exact path={ ROUTES.cargarOrden.path } component={CargarOrdenPage} />
-    <SecureRoute component={NotFound} />
+    <SecureRoute path={ ROUTES.orden.path } component={OrdenPage} />
+    <SecureRoute path={ ROUTES.pedido.path } component={PedidoPage} />
+    <SecureRoute path={ ROUTES.cliente.path } component={ClientePage} />
+    <SecureRoute path={ ROUTES.cargarOrden.path } component={CargarOrdenPage} />
     <Route path="/implicit/callback" component={ImplicitCallback} />
   </Fragment>
 );

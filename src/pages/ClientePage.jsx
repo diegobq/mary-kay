@@ -100,11 +100,8 @@ class ClientesManager extends Component {
   }
 
   renderEditor = ({ match: { params: { id } } }) => {
-    console.log("el state is: ", this.state);
     if (this.state.loading) return null;
-    console.log("el id es: " + id);
     let item = find(this.state.items, { id: id });
-    console.log('va a buscarlo');
 
     if (!item && id !== 'new') return <Redirect to={ this.route.path } />;
 
