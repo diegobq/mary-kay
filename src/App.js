@@ -8,7 +8,7 @@ import {
 
 import AppHeader from './components/AppHeader';
 import Home from './pages/Home';
-import { CargarOrdenPage, ClientePage, NotFound, OrdenPage, PedidoPage } from './pages';
+import { CargarOrdenPage, ClientePage, OrdenPage, PedidoPage } from './pages';
 import { ROUTES } from './constants';
 
 const styles = theme => ({
