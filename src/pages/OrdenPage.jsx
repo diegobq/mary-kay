@@ -118,11 +118,16 @@ class OrdenManager extends Component {
       porcentaje: (100 - porcentaje),
       total: 0,
       ganancia: 0,
+      gananciaStr: '',
+      pendienteStr: '',
       descuento: 0,
-      pagado: 0
+      pagado: 0,
+      pedidos: orden.pedidos.length,
+      entregadosStr: '0'
     };
 
     if(orden.pedidos) {
+      let entregados = 0;
       orden.pedidos.forEach((pedido) => {
         const descuento = parseFloat(pedido.descuento);
         const pagado = parseFloat(pedido.pagado);
@@ -130,9 +135,25 @@ class OrdenManager extends Component {
         totales.descuento += descuento;
         totales.pagado += pagado;
         totales.total += total;
+        entregados += (pedido.fechaEntregado ? 1 : 0);
       });
-      totales.totalMK = totales.total * totales.porcentajeMK * 0.01;
-      totales.ganancia = totales.total - totales.totalMK - totales.descuento;
+      if (orden.pedidos.length === 0) {
+        totales.entregadosStr = 'Sin Pedidos';
+      } else {
+        totales.descuento = totales.descuento.toFixed(2);
+        totales.pagado = totales.pagado.toFixed(2);
+        totales.totalMK = (totales.total * totales.porcentajeMK * 0.01).toFixed(2);
+        totales.ganancia = (totales.total - totales.totalMK - totales.descuento).toFixed(2);
+        let pendiente = (totales.total - totales.pagado - totales.descuento).toFixed(2);
+
+        totales.gananciaStr = ` - Ganancia $${totales.ganancia}`;
+        totales.pendienteStr = ` - Pendiente ${pendiente}`;
+        if (entregados === orden.pedidos.length) {
+          totales.entregadosStr = 'Entregados: Todos';
+        } else {
+          totales.entregadosStr = `Entregados: ${entregados}/${totales.pedidos}`;
+        }
+      }
     }
 
     return totales
@@ -195,8 +216,8 @@ class OrdenManager extends Component {
                     </Avatar>
                     }
                     <ListItemText
-                      primary={`${MESES[moment(item.fechaOrden).format('MM')]} - ${moment(item.fechaOrden).format('YYYY')} - ${item.porcentaje}% ${item.fechaPedido ? " - " + moment(item.fechaPedido).format('DD/MM/YYYY') : ""}`}
-                      secondary={`Total $${totales.total} - Ganancia(${totales.porcentaje}%) $${totales.ganancia} - Descuento $${totales.descuento} - Mary Kay(${totales.porcentajeMK}%) $${totales.totalMK} - Pagado $${totales.ganancia}`}
+                      primary={`${MESES[moment(item.fechaOrden).format('MM')]} ${moment(item.fechaOrden).format('YYYY')} (${item.porcentaje}%) ${item.fechaPedido ? " - " + moment(item.fechaPedido).format('DD/MM/YYYY') : ""} ${totales.gananciaStr} - ${totales.entregadosStr}`}
+                      secondary={`Total $${totales.total} - Descuento $${totales.descuento} - Mary Kay $${totales.totalMK} - Pagado $${totales.pagado} ${totales.pendienteStr}`}
                     />
                     <ListItemSecondaryAction>
                       <IconButton onClick={() => this.editItem(item)} color="inherit">
