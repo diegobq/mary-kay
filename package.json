@@ -6,6 +6,7 @@
     "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^3.0.1",
     "@okta/okta-react": "^1.1.4",
+    "body-parser": "^1.19.0",
     "final-form": "^4.11.0",
     "firebase": "^5.5.9",
     "lodash": "^4.17.10",
@@ -22,7 +23,7 @@
   "scripts": {
     "start": "if test \"$NODE_ENV\" = \"production\" ; then npm run start-prod; else npm run start-dev; fi",
     "start-dev": "echo $NODE_ENV && react-scripts start",
-    "start-prod": "echo $NODE_ENV && serve -s build",
+    "start-prod": "echo $NODE_ENV && node ./server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
